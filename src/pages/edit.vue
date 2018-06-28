@@ -37,7 +37,23 @@ export default {
   methods: {
     submitArticle: function() {
       api.submitArticle(this.formItem).then(data => {
-        this.formItem.input = data.status;
+        if (data.status === "ok") {
+          this.submitArticleSuccess(data.msg);
+        } else {
+          this.submitArticleFailed(data.msg);
+        }
+      });
+    },
+    submitArticleSuccess: function(desc) {
+      this.$Notice.success({
+        title: "提交成功",
+        desc: desc ? desc : "文章已经成功提交"
+      });
+    },
+    submitArticleFailed: function(desc) {
+      this.$Notice.warning({
+        title: "提交失败",
+        desc: desc ? desc : "文章提交失败"
       });
     }
   }
