@@ -1,4 +1,5 @@
 import async from './fetch'
+import fs from 'qs'
 
 const apiUrl = '/api/v1'
 

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import qs from 'qs'
 
 axios.defaults.headers.post['Content-Type'] = "application/x-www-from-urlencoded"
 axios.defaults.timeout = 3000
@@ -7,7 +6,7 @@ axios.defaults.timeout = 3000
 // add a request interceptor(拦截器)
 axios.interceptors.request.use((config) => {
   if (config.method === 'post') {
-    config.data = qs.stringify(config.data)
+    config.data = JSON.stringify(config.data)
   }
   return config
 }, (error) => {

@@ -11,7 +11,10 @@
                 </FormItem>
               </div>
               <FormItem label="正文">
-                <mavon-editor v-model="formItem.articleValue"></mavon-editor>
+                <quill-editor v-model="formItem.articleValue"
+                              ref="quill"
+                              :options="editorOption">
+                </quill-editor>
               </FormItem>
             </Form>
         </div>
@@ -30,15 +33,17 @@ export default {
     return {
       formItem: {
         input: "",
-        articleValue: ""
-      }
+        articleValue: "<p>大兵小将</p>"
+      },
+      editorOption: {}
     };
   },
   methods: {
     submitArticle: function() {
       api.submitArticle(this.formItem).then(data => {
         if (data.status === "ok") {
-          this.submitArticleSuccess(data.msg);
+          this.submitArticleSuccess(data.status);
+          this.formItem.articleValue = data.value;
         } else {
           this.submitArticleFailed(data.msg);
         }
