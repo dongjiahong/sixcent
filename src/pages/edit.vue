@@ -5,13 +5,14 @@
             <Form :model="formItem" :label-width="80">
               <div class="input-title-wrap">
                 <FormItem label="标题">
-                    <Input v-model="formItem.input" placeholder="Enter title..." class="input-title"/>
+                    <Input v-model="formItem.title" placeholder="Enter title..." class="input-title"/>
                   <Button type="primary" style="margin-left: 20px" @click="submitArticle">提交</Button>
                   <Button type="ghost" style="margin-left: 20px">取消</Button>
                 </FormItem>
               </div>
               <FormItem label="正文">
-                <quill-editor v-model="formItem.articleValue"
+                <quill-editor class="editor-content"
+                              v-model="formItem.content"
                               ref="quill"
                               :options="editorOption">
                 </quill-editor>
@@ -32,8 +33,9 @@ export default {
   data() {
     return {
       formItem: {
-        input: "",
-        articleValue: "<p>大兵小将</p>"
+        uid: "112233",
+        title: "",
+        content: ""
       },
       editorOption: {}
     };
@@ -41,9 +43,8 @@ export default {
   methods: {
     submitArticle: function() {
       api.submitArticle(this.formItem).then(data => {
-        if (data.status === "ok") {
+        if (data.status === 1) {
           this.submitArticleSuccess(data.status);
-          this.formItem.articleValue = data.value;
         } else {
           this.submitArticleFailed(data.msg);
         }
@@ -74,6 +75,9 @@ export default {
     .input-title {
       width: 400px;
     }
+  }
+  .editor-content {
+    height: 400px;
   }
 }
 </style>
